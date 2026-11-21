@@ -1,0 +1,2 @@
+import Link from 'next/link';
+export default function Forbidden() { return (<div className="grid min-h-screen place-items-center p-6 text-center"><div><p className="text-5xl">🔒</p><h1 className="mt-3 text-2xl font-extrabold">You don’t have access to this section</h1><p className="mt-2 text-slate-500">Ask your Super Admin to enable it for your role (Users, Roles &amp; IP → Permissions).</p><Link href="/" className="btn-primary mt-5">Back to dashboard</Link></div></div>); }

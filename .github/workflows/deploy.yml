@@ -1,0 +1,16 @@
+# Auto-deploy to the client's rack server whenever main is pushed. Requires a self-hosted runner on that server,
+# or set SSH_HOST / SSH_USER / SSH_KEY secrets and use the ssh step below.
+name: Deploy
+on: { push: { branches: [main] } }
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd /opt/jewellery-erp && node scripts/backup.mjs && git pull origin main \
+              && npm ci && npm run build && pm2 restart jewellery-erp || pm2 start npm --name jewellery-erp -- start
