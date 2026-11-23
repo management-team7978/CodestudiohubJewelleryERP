@@ -59,7 +59,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ pat
     if (p && !db.prepare('SELECT 1 FROM blocked_parties WHERE party_id=?').get(p.id)) {
       const code = String(crypto.randomInt(100000, 999999));
       db.prepare('INSERT INTO otp_codes(mobile,code_hash,expires) VALUES(?,?,?)').run(m, sha(code + m), new Date(Date.now() + 600000).toISOString());
-      if (S.sms_webhook) fetch(S.sms_webhook, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ mobile: m, message: `Your Shakti Gold login OTP is ${code}. Valid 10 minutes.` }) }).catch(() => {});
+      if (S.sms_webhook) fetch(S.sms_webhook, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ mobile: m, message: `Your swastikjewellersERP login OTP is ${code}. Valid 10 minutes.` }) }).catch(() => {});
       if (process.env.ERP_DEV_OTP === '1') reply.devOtp = code;
     }
     return json(reply);

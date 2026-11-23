@@ -14,7 +14,7 @@ export function Shell({ nav, user, role, rate, children }: { nav: NavItem[]; use
   const groups = [...new Set(nav.map((n) => n.group))];
   const sidebar = (
     <nav className="flex h-full flex-col">
-      <div className="px-5 pb-4 pt-5"><Link href="/" onClick={() => setOpen(false)}><Image src="/logo.png" alt="CodeStudioHub" width={190} height={72} priority className="h-auto w-44" /></Link></div>
+      <div className="flex justify-center px-4 pb-3 pt-5"><Link href="/" onClick={() => setOpen(false)} className="block w-32"><Image src="/swastik-logo.png" alt="Swastik Jewellers" width={1024} height={792} priority className="h-auto w-full" /></Link></div>
       <div className="flex-1 space-y-5 overflow-y-auto px-3 pb-6">
         {groups.map((g) => (
           <div key={g}>
@@ -32,7 +32,7 @@ export function Shell({ nav, user, role, rate, children }: { nav: NavItem[]; use
         ))}
       </div>
       <div className="border-t border-slate-100 p-4">
-        <div className="mb-3 flex items-center gap-3"><div className="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-brand-500 to-leaf-500 text-sm font-bold text-white">{user[0]}</div><div className="min-w-0"><p className="truncate text-sm font-bold text-ink-800">{user}</p><p className="text-xs text-slate-500">{role}</p></div></div>
+        <div className="mb-3 flex items-center gap-3"><div className="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-brand-500 to-gold-500 text-sm font-bold text-white">{user[0]}</div><div className="min-w-0"><p className="truncate text-sm font-bold text-ink-800">{user}</p><p className="text-xs text-slate-500">{role}</p></div></div>
         <form action={logoutAction}><button className="btn-ghost w-full"><LogOut className="h-4 w-4" />Sign out</button></form>
       </div>
     </nav>
@@ -44,6 +44,7 @@ export function Shell({ nav, user, role, rate, children }: { nav: NavItem[]; use
       <aside className={`no-print fixed inset-y-0 left-0 z-50 w-72 bg-white shadow-2xl transition-transform lg:hidden ${open ? 'translate-x-0' : '-translate-x-full'}`}>{sidebar}</aside>
       <header className="no-print sticky top-0 z-20 flex items-center gap-3 border-b border-slate-200 bg-white/80 px-4 py-3 backdrop-blur lg:px-8">
         <button className="btn-ghost !px-2.5 lg:hidden" onClick={() => setOpen(!open)} aria-label="Menu">{open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}</button>
+        <Link href="/" className="flex min-w-0 items-center gap-2 lg:hidden"><Image src="/swastik-logo.png" alt="" width={1024} height={792} className="h-9 w-auto" /><span className="truncate text-sm font-extrabold text-ink-900">swastikjewellersERP</span></Link>
         <div className="ml-auto flex items-center gap-3">
           <Link href="/settings" className="hidden items-center gap-2 rounded-xl bg-amber-50 px-3 py-1.5 text-sm font-bold text-amber-700 sm:flex" title="Today's 24K gold rate — click to update"><Coins className="h-4 w-4" />24K ₹{rate}/g</Link>
           <Link href="/guide" className="btn-ghost !py-1.5"><Rocket className="h-4 w-4" />Guide</Link>

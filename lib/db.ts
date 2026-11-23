@@ -187,8 +187,8 @@ function seed(db: Database.Database) {
 
     const set = db.prepare('INSERT INTO settings VALUES(?,?)');
     const S: Record<string, string> = {
-      company_name: 'Shakti Gold', company_gstin: '27ABCDE1234F1Z5', company_state: 'Maharashtra', company_state_code: '27',
-      company_address: 'Patwa Chawl, Zaveri Bazar, Mumbai', company_pincode: '400002', company_phone: '+91 98200 00000', company_email: 'info@shaktigold.example',
+      company_name: 'swastikjewellersERP', company_gstin: '27ABCDE1234F1Z5', company_state: 'Maharashtra', company_state_code: '27',
+      company_address: 'Patwa Chawl, Zaveri Bazar, Mumbai', company_pincode: '400002', company_phone: '+91 98200 00000', company_email: 'info@swastikjewellers.example',
       invoice_prefix_gst: 'GST/26-27/', invoice_prefix_gold: 'GB/26-27/', invoice_prefix_cash: 'CB/26-27/', fy: '2026-27',
       gst_jewellery: '3', gst_making: '5', hsn_jewellery: '7113', session_minutes: '30', max_attempts: '5', ip_enforce: '0',
       einv_mode: 'manual', einv_provider: 'generic', einv_env: 'sandbox', einv_base_url: '', einv_client_id: '', einv_client_secret: '',
