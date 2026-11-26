@@ -10,16 +10,20 @@ export const dynamic = 'force-dynamic';
 
 export default async function Loss({ searchParams }: { searchParams: Promise<{ days?: string; dept?: string; karigar?: string }> }) {
   const s = await guard('loss'); const p = permOf(s, 'loss'); const db = getDb(); const sp = await searchParams;
-  const days = Number(sp.days || 30); const dept = Number(sp.dept || 0), kar = Number(sp.karigar || 0);
-  const w = `date>=date('now','-${days} day')${dept ? ` AND dept_id=${dept}` : ''}${kar ? ` AND karigar_id=${kar}` : ''}`;
+  const days = Math.min(365, Math.max(1, Math.trunc(Number(sp.days) || 30)));
+  const dept = Math.trunc(Number(sp.dept) || 0), kar = Math.trunc(Number(sp.karigar) || 0);
+  const where = (alias = '') => {
+    const col = (name: string) => `${alias ? `${alias}.` : ''}${name}`;
+    return `${col('date')}>=date('now','-${days} day')${dept ? ` AND ${col('dept_id')}=${dept}` : ''}${kar ? ` AND ${col('karigar_id')}=${kar}` : ''}`;
+  };
   const all = (sql: string) => db.prepare(sql).all() as any[]; const one = (sql: string) => db.prepare(sql).get() as any;
-  const cur = one(`SELECT COALESCE(SUM(loss_fine),0) f, COALESCE(SUM(loss_gross),0) g, COALESCE(SUM(weight_given),0) w FROM loss_entries WHERE ${w}`);
+  const cur = one(`SELECT COALESCE(SUM(loss_fine),0) f, COALESCE(SUM(loss_gross),0) g, COALESCE(SUM(weight_given),0) w FROM loss_entries WHERE ${where()}`);
   const prev = one(`SELECT COALESCE(SUM(loss_fine),0) f FROM loss_entries WHERE date>=date('now','-${days * 2} day') AND date<date('now','-${days} day')${dept ? ` AND dept_id=${dept}` : ''}${kar ? ` AND karigar_id=${kar}` : ''}`);
   const change = prev.f ? ((cur.f - prev.f) / prev.f) * 100 : 0; const up = cur.f > prev.f;
-  const trend = all(`SELECT substr(date,6) l, ROUND(SUM(loss_fine),3) v FROM loss_entries WHERE ${w} GROUP BY date ORDER BY date`);
-  const byDept = all(`SELECT COALESCE(d.name,'—') l, ROUND(SUM(loss_fine),3) v FROM loss_entries l LEFT JOIN departments d ON d.id=l.dept_id WHERE ${w.replace(/date/g, 'l.date').replace(/dept_id/g, 'l.dept_id').replace(/karigar_id/g, 'l.karigar_id')} GROUP BY l.dept_id ORDER BY v DESC`);
-  const byKar = all(`SELECT u.name l, ROUND(SUM(loss_fine),3) v FROM loss_entries l JOIN users u ON u.id=l.karigar_id WHERE ${w.replace(/date/g, 'l.date').replace(/dept_id/g, 'l.dept_id').replace(/karigar_id/g, 'l.karigar_id')} GROUP BY l.karigar_id ORDER BY v DESC`);
-  const topOrders = all(`SELECT o.no l, ROUND(SUM(l.loss_fine),3) v, ROUND(SUM(l.loss_gross)/NULLIF(SUM(l.weight_given),0)*100,2) pct FROM loss_entries l JOIN orders o ON o.id=l.order_id WHERE ${w.replace(/date/g, 'l.date').replace(/dept_id/g, 'l.dept_id').replace(/karigar_id/g, 'l.karigar_id')} GROUP BY l.order_id ORDER BY v DESC LIMIT 5`);
+  const trend = all(`SELECT substr(date,6) l, ROUND(SUM(loss_fine),3) v FROM loss_entries WHERE ${where()} GROUP BY date ORDER BY date`);
+  const byDept = all(`SELECT COALESCE(d.name,'—') l, ROUND(SUM(loss_fine),3) v FROM loss_entries l LEFT JOIN departments d ON d.id=l.dept_id WHERE ${where('l')} GROUP BY l.dept_id ORDER BY v DESC`);
+  const byKar = all(`SELECT u.name l, ROUND(SUM(loss_fine),3) v FROM loss_entries l JOIN users u ON u.id=l.karigar_id WHERE ${where('l')} GROUP BY l.karigar_id ORDER BY v DESC`);
+  const topOrders = all(`SELECT o.no l, ROUND(SUM(l.loss_fine),3) v, ROUND(SUM(l.loss_gross)/NULLIF(SUM(l.weight_given),0)*100,2) pct FROM loss_entries l JOIN orders o ON o.id=l.order_id WHERE ${where('l')} GROUP BY l.order_id ORDER BY v DESC LIMIT 5`);
   const recent = all(`SELECT l.*, d.name dept, u.name kar, o.no ono FROM loss_entries l LEFT JOIN departments d ON d.id=l.dept_id LEFT JOIN users u ON u.id=l.karigar_id LEFT JOIN orders o ON o.id=l.order_id ORDER BY l.id DESC LIMIT 12`);
   const depts = all('SELECT id,name FROM departments WHERE active=1'); const kars = all("SELECT id,name FROM users WHERE kind='karigar' AND active=1"); const orders = all('SELECT id,no FROM orders'); const jewels = all('SELECT id,name FROM jewel_types');
   return (
