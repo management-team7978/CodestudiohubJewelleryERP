@@ -26,7 +26,7 @@ export default async function Transfers() {
         {p.can_add ? <Card title="New transfer"><ActionForm action={createTransfer} submit="Send gold"><div className="space-y-3">
           <Field label="From"><select name="from" className="input" required>{acc.map((a) => <option key={a.v} value={a.v}>{a.l}</option>)}</select></Field>
           <Field label="To"><select name="to" className="input" required><option value="">Select…</option>{acc.map((a) => <option key={a.v} value={a.v}>{a.l}</option>)}</select></Field>
-          <div className="grid grid-cols-2 gap-3"><Field label="Gross (g)"><input name="gross" type="number" step="0.001" className="input num" required /></Field><Field label="Touch %"><input name="touch" type="number" step="0.01" defaultValue="91.6" className="input num" /></Field></div>
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2"><Field label="Gross (g)"><input name="gross" type="number" step="0.001" className="input num" required /></Field><Field label="Touch %"><input name="touch" type="number" step="0.01" defaultValue="91.6" className="input num" /></Field></div>
           <Field label="For order (optional)"><select name="order_id" className="input"><option value="">—</option>{orders.map((o) => <option key={o.id} value={o.id}>{o.no}</option>)}</select></Field>
           <Field label="Date"><input name="date" type="date" className="input" /></Field><Field label="Note"><input name="note" className="input" /></Field>
         </div></ActionForm></Card> : null}

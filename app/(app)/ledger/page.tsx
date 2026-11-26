@@ -23,7 +23,7 @@ export default async function Ledger({ searchParams }: { searchParams: Promise<{
       <PageHeader title="Gold & Cash Ledger" subtitle="Statement for any party, karigar, department or the store" id="ledger" help={{ steps: ['Pick an account — party, karigar, department or the main store.', 'Gold: IN adds, OUT subtracts. For a party, a positive fine balance means we hold their gold; negative means they owe us gold.', 'Cash (parties only): debit = they owe us (bills), credit = they paid.'], tip: 'Fine balance × today’s 24K rate shows the cash value if the party decides to convert gold to cash.' }}>
         <a href="/api/export/ledger" className="btn-ghost"><Download className="h-4 w-4" />CSV</a>
       </PageHeader>
-      <form className="no-print mb-5 flex items-end gap-3"><Field label="Account" className="min-w-72"><select name="acct" defaultValue={sel} className="input">{acc.map((a) => <option key={a.v} value={a.v}>{a.l}</option>)}</select></Field><button className="btn-primary">Show</button></form>
+      <form className="no-print mb-5 grid gap-3 sm:flex sm:items-end"><Field label="Account" className="min-w-0 sm:min-w-72 sm:flex-1"><select name="acct" defaultValue={sel} className="input">{acc.map((a) => <option key={a.v} value={a.v}>{a.l}</option>)}</select></Field><button className="btn-primary w-full sm:w-auto">Show</button></form>
       <div className="grid gap-4 sm:grid-cols-3">
         {[['Gross balance', g3(rg) + ' g', 'bg-brand-50 text-brand-700'], ['Fine balance', g3(rf) + ' g', 'bg-amber-50 text-amber-700'], [`Value @ ₹${rate}/g`, inr(rf * rate), 'bg-leaf-50 text-leaf-700']].map(([l, v, c]) => <div key={l} className={`rounded-2xl p-4 ${c}`}><p className="text-xs font-bold uppercase opacity-70">{l}</p><p className="num mt-1 text-2xl font-extrabold">{v}</p></div>)}
       </div>
@@ -36,9 +36,9 @@ export default async function Ledger({ searchParams }: { searchParams: Promise<{
         </div>
         {p.can_add ? <Card title="Add party / customer"><ActionForm action={saveParty} submit="Save party"><div className="space-y-3">
           <Field label="Name"><input name="name" className="input" required /></Field>
-          <div className="grid grid-cols-2 gap-3"><Field label="Type"><select name="type" className="input"><option value="B2B">B2B (business)</option><option value="B2C">B2C (customer)</option><option value="SUPPLIER">Supplier</option></select></Field><Field label="Mobile"><input name="mobile" className="input" inputMode="tel" /></Field></div>
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2"><Field label="Type"><select name="type" className="input"><option value="B2B">B2B (business)</option><option value="B2C">B2C (customer)</option><option value="SUPPLIER">Supplier</option></select></Field><Field label="Mobile"><input name="mobile" className="input" inputMode="tel" /></Field></div>
           <Field label="GSTIN" hint="Needed for B2B GST bills & e-Invoice"><input name="gstin" className="input uppercase" maxLength={15} /></Field>
-          <div className="grid grid-cols-2 gap-3"><Field label="State"><input name="state" defaultValue="Maharashtra" className="input" /></Field><Field label="State code"><input name="state_code" defaultValue="27" className="input" /></Field></div>
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2"><Field label="State"><input name="state" defaultValue="Maharashtra" className="input" /></Field><Field label="State code"><input name="state_code" defaultValue="27" className="input" /></Field></div>
           <Field label="Address"><input name="address" className="input" /></Field><Field label="Pincode"><input name="pincode" className="input" maxLength={6} /></Field></div></ActionForm></Card> : null}
       </div>
     </>

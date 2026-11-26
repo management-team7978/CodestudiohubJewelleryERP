@@ -13,7 +13,7 @@ export function ActionForm({ action, children, submit = 'Save', className = '', 
     <form ref={ref} className={className} onSubmit={(e) => { e.preventDefault(); const fd = new FormData(e.currentTarget); startTransition(() => fn(fd)); }}>
       {children}
       <div className="mt-4 flex flex-wrap items-center gap-3">
-        <button className={tone === 'green' ? 'btn-green' : 'btn-primary'} disabled={pending}>{pending && <Loader2 className="h-4 w-4 animate-spin" />}{submit}</button>
+        <button className={`${tone === 'green' ? 'btn-green' : 'btn-primary'} w-full sm:w-auto`} disabled={pending}>{pending && <Loader2 className="h-4 w-4 animate-spin" />}{submit}</button>
         {state && (
           <p className={`flex items-center gap-1.5 text-sm font-medium ${state.ok ? 'text-leaf-600' : 'text-rose-600'}`} role="status">
             {state.ok ? <CheckCircle2 className="h-4 w-4" /> : <AlertCircle className="h-4 w-4" />}{state.msg}

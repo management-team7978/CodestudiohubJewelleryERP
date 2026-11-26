@@ -32,7 +32,7 @@ export default async function GST({ searchParams }: { searchParams: Promise<{ mo
                   {p.can_edit && api && !i.irn && !errs.length && i.status !== 'Cancelled' && <form action={pushInvoice}><input type="hidden" name="id" value={i.id} /><button className="btn-primary !px-2.5 !py-1.5 text-xs"><Send className="h-3.5 w-3.5" />Send to portal</button></form>}
                   {i.status !== 'Cancelled' && i.gstin && <a href={`/api/export/eway?id=${i.id}`} className="btn-ghost !px-2.5 !py-1.5 text-xs">e-Way JSON</a>}
                 </div>
-                {p.can_edit && !i.irn && i.gstin && i.status !== 'Cancelled' && <details className="mt-2"><summary className="cursor-pointer text-xs font-semibold text-slate-500"><KeyRound className="mr-1 inline h-3 w-3" />Paste IRN</summary><ActionForm action={manualIrn} submit="Save IRN" className="mt-2"><input type="hidden" name="id" value={i.id} /><div className="space-y-2"><input name="irn" className="input text-xs" placeholder="IRN (64 chars)" /><div className="grid grid-cols-2 gap-2"><input name="ack_no" className="input text-xs" placeholder="Ack no" /><input name="ack_date" className="input text-xs" placeholder="Ack date" /></div></div></ActionForm></details>}</Td></tr>); })}
+                {p.can_edit && !i.irn && i.gstin && i.status !== 'Cancelled' && <details className="mt-2"><summary className="cursor-pointer text-xs font-semibold text-slate-500"><KeyRound className="mr-1 inline h-3 w-3" />Paste IRN</summary><ActionForm action={manualIrn} submit="Save IRN" className="mt-2"><input type="hidden" name="id" value={i.id} /><div className="space-y-2"><input name="irn" className="input text-xs" placeholder="IRN (64 chars)" /><div className="grid grid-cols-1 gap-2 min-[420px]:grid-cols-2"><input name="ack_no" className="input text-xs" placeholder="Ack no" /><input name="ack_date" className="input text-xs" placeholder="Ack date" /></div></div></ActionForm></details>}</Td></tr>); })}
             {!invs.length && <tr><Td className="text-slate-400">No GST invoices yet — create one in Billing.</Td></tr>}</Table></Card>
           <Card title="Portal / API settings" action={<Badge>{api ? 'Generated' : 'Pending'}</Badge>}>
             <ActionForm action={saveSettings} submit="Save portal settings" resetOnOk={false}>
@@ -54,7 +54,7 @@ export default async function GST({ searchParams }: { searchParams: Promise<{ mo
         </div>
         <div className="space-y-6">
           <Card title="Monthly GST files">
-            <form className="mb-4 flex items-end gap-2"><Field label="Month" className="flex-1"><input type="month" name="month" defaultValue={month} className="input" /></Field><button className="btn-ghost">Go</button></form>
+            <form className="mb-4 flex flex-wrap items-end gap-2"><Field label="Month" className="min-w-0 w-full flex-1"><input type="month" name="month" defaultValue={month} className="input" /></Field><button className="btn-ghost w-full sm:w-auto">Go</button></form>
             <p className="mb-3 text-sm text-slate-500">{sum.c} invoices · taxable {inr(sum.t)} · GST {inr(sum.x)}</p>
             <div className="space-y-2"><a className="btn-primary w-full" href={`/api/export/gstr1?month=${month}`}><Download className="h-4 w-4" />GSTR-1 JSON</a><a className="btn-ghost w-full" href={`/api/export/einvoice-bulk?month=${month}`}><Download className="h-4 w-4" />All e-Invoice JSON (pending)</a><a className="btn-ghost w-full" href="/api/export/sales"><Download className="h-4 w-4" />Sales register CSV</a></div>
           </Card>

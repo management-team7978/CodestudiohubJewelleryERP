@@ -38,19 +38,19 @@ export function Shell({ nav, user, role, rate, children }: { nav: NavItem[]; use
     </nav>
   );
   return (
-    <div className="min-h-screen lg:pl-64">
+    <div className="min-h-screen min-w-0 lg:pl-64">
       <aside className="no-print fixed inset-y-0 left-0 z-30 hidden w-64 border-r border-slate-200 bg-white lg:block">{sidebar}</aside>
       {open && <div className="fixed inset-0 z-40 bg-ink-900/50 lg:hidden" onClick={() => setOpen(false)} />}
       <aside className={`no-print fixed inset-y-0 left-0 z-50 w-72 bg-white shadow-2xl transition-transform lg:hidden ${open ? 'translate-x-0' : '-translate-x-full'}`}>{sidebar}</aside>
       <header className="no-print sticky top-0 z-20 flex items-center gap-3 border-b border-slate-200 bg-white/80 px-4 py-3 backdrop-blur lg:px-8">
         <button className="btn-ghost !px-2.5 lg:hidden" onClick={() => setOpen(!open)} aria-label="Menu">{open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}</button>
-        <Link href="/" className="flex min-w-0 items-center gap-2 lg:hidden"><Image src="/swastik-logo.png" alt="" width={1024} height={792} className="h-9 w-auto" /><span className="truncate text-sm font-extrabold text-ink-900">swastikjewellersERP</span></Link>
-        <div className="ml-auto flex items-center gap-3">
+        <Link href="/" className="flex min-w-0 items-center gap-2 lg:hidden"><Image src="/swastik-logo.png" alt="Swastik Jewellers" width={1024} height={792} className="h-9 w-auto shrink-0" /><span className="hidden truncate text-sm font-extrabold text-ink-900 sm:inline">swastikjewellersERP</span></Link>
+        <div className="ml-auto flex shrink-0 items-center gap-2">
           <Link href="/settings" className="hidden items-center gap-2 rounded-xl bg-amber-50 px-3 py-1.5 text-sm font-bold text-amber-700 sm:flex" title="Today's 24K gold rate — click to update"><Coins className="h-4 w-4" />24K ₹{rate}/g</Link>
-          <Link href="/guide" className="btn-ghost !py-1.5"><Rocket className="h-4 w-4" />Guide</Link>
+          <Link href="/guide" className="btn-ghost !px-2.5 !py-1.5 sm:!px-4"><Rocket className="h-4 w-4" /><span className="hidden sm:inline">Guide</span></Link>
         </div>
       </header>
-      <main className="mx-auto max-w-7xl px-4 py-6 lg:px-8">{children}</main>
+      <main className="mx-auto min-w-0 max-w-7xl px-4 py-6 lg:px-8">{children}</main>
     </div>
   );
 }

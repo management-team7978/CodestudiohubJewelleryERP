@@ -49,8 +49,8 @@ export function MeltingForm({ action, parties, karigars }: { action: any; partie
       <p className="label">1 · Lots going into the furnace</p>
       <div className="space-y-2">
         {rows.map((r, i) => (
-          <div key={i} className="grid grid-cols-[1fr_110px_90px_36px] gap-2">
-            <select className="input" value={r.party_id} onChange={(e) => upd(i, 'party_id', e.target.value)}><option value="">Own / mixed</option>{parties.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}</select>
+          <div key={i} className="grid grid-cols-2 gap-2 sm:grid-cols-[minmax(0,1fr)_110px_90px_36px]">
+            <select className="input col-span-2 sm:col-span-1" value={r.party_id} onChange={(e) => upd(i, 'party_id', e.target.value)}><option value="">Own / mixed</option>{parties.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}</select>
             <input className="input num" type="number" step="0.001" placeholder="Gross g" value={r.gross} onChange={(e) => upd(i, 'gross', e.target.value)} />
             <input className="input num" type="number" step="0.01" placeholder="Touch" value={r.touch} onChange={(e) => upd(i, 'touch', e.target.value)} />
             <button type="button" className="btn-danger !px-2" onClick={() => setRows(rows.filter((_, j) => j !== i))} aria-label="Remove"><X className="h-4 w-4" /></button>
@@ -132,7 +132,7 @@ export function InvoiceForm({ action, parties, orders, defaults }: { action: any
       <p className="label mt-5">Items</p>
       <div className="space-y-2">{lines.map((l, i) => (
         <div key={i} className="grid grid-cols-2 gap-2 rounded-2xl bg-slate-50 p-3 md:grid-cols-12">
-          <input className="input md:col-span-4" placeholder="Description (e.g. 22K Chain)" value={l.description} onChange={(e) => upd(i, 'description', e.target.value)} />
+          <input className="input col-span-2 md:col-span-4" placeholder="Description (e.g. 22K Chain)" value={l.description} onChange={(e) => upd(i, 'description', e.target.value)} />
           {type === 'GOLD' ? (<>
             <input className="input num md:col-span-2" type="number" step="0.001" placeholder="Gross g" value={l.gross} onChange={(e) => upd(i, 'gross', e.target.value)} />
             <input className="input num md:col-span-2" type="number" step="0.01" placeholder="Touch" value={l.touch} onChange={(e) => upd(i, 'touch', e.target.value)} />
@@ -147,7 +147,7 @@ export function InvoiceForm({ action, parties, orders, defaults }: { action: any
           <button type="button" className="btn-danger md:col-span-1" onClick={() => setLines(lines.length > 1 ? lines.filter((_, j) => j !== i) : lines)} aria-label="Remove line"><Trash2 className="h-4 w-4" /></button>
         </div>))}</div>
       <button type="button" className="btn-ghost mt-2" onClick={() => setLines([...lines, blank(defaults.gst)])}><Plus className="h-4 w-4" />Add item</button>
-      <div className="mt-4 ml-auto max-w-sm space-y-1 rounded-2xl bg-gradient-to-br from-brand-50 to-leaf-50 p-4 text-sm">
+      <div className="mt-4 w-full max-w-sm space-y-1 rounded-2xl bg-gradient-to-br from-brand-50 to-leaf-50 p-4 text-sm sm:ml-auto">
         {type === 'GOLD' ? (<>
           <Row l="Gross gold" v={g3(gross) + ' g'} /><Row l="FINE gold to settle" v={g3(fine) + ' g'} b />{+rate > 0 && <Row l="Fine value @ rate" v={inr(fine * +rate)} />}<Row l="Labour / charges (cash)" v={inr(sub)} b />
         </>) : (<>

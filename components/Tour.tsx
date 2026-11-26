@@ -23,7 +23,7 @@ export function Tour({ name }: { name: string }) {
   return (
     <div className="fixed inset-0 z-[60] grid place-items-center bg-ink-900/60 p-4 backdrop-blur-sm" role="dialog" aria-modal="true">
       <div className="w-full max-w-lg overflow-hidden rounded-3xl bg-white shadow-2xl">
-        <div className="relative bg-gradient-to-br from-brand-50 via-white to-leaf-50 px-8 pb-6 pt-8">
+        <div className="relative bg-gradient-to-br from-brand-50 via-white to-leaf-50 px-5 pb-6 pt-8 sm:px-8">
           <button onClick={close} className="absolute right-4 top-4 rounded-full p-1.5 text-slate-400 hover:bg-slate-100" aria-label="Skip tour"><X className="h-5 w-5" /></button>
           {i === 0 && <Image src="/swastik-logo.png" alt="Swastik Jewellers" width={1024} height={792} className="mb-4 h-auto w-28" />}
           <div className="text-5xl">{s.e}</div>
@@ -31,7 +31,7 @@ export function Tour({ name }: { name: string }) {
           <p className="mt-2 leading-relaxed text-slate-600">{s.b}</p>
           {s.go && <Link href={s.go} onClick={close} className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-brand-600 hover:underline">{s.cta} <ArrowRight className="h-4 w-4" /></Link>}
         </div>
-        <div className="flex items-center justify-between px-8 py-5">
+        <div className="flex flex-wrap items-center justify-between gap-3 px-5 py-5 sm:px-8">
           <div className="flex gap-1.5">{STEPS.map((_, k) => <span key={k} className={`h-1.5 rounded-full transition-all ${k === i ? 'w-6 bg-brand-500' : 'w-1.5 bg-slate-200'}`} />)}</div>
           <div className="flex gap-2">
             {i > 0 && <button className="btn-ghost" onClick={() => setI(i - 1)}>Back</button>}

@@ -29,7 +29,7 @@ export default async function Karigars({ searchParams }: { searchParams: Promise
         {p.can_add ? <Card title="Add karigar"><ActionForm action={saveKarigar} submit="Add karigar"><div className="space-y-3">
           <Field label="Name"><input name="name" className="input" required /></Field><Field label="Mobile"><input name="mobile" className="input" inputMode="tel" /></Field>
           <Field label="Department"><select name="dept_id" className="input"><option value="">—</option>{depts.map((d) => <option key={d.id} value={d.id}>{d.name}</option>)}</select></Field>
-          <div className="grid grid-cols-2 gap-3"><Field label="Wage type"><select name="wage_type" className="input"><option value="per_gram">Per gram</option><option value="per_piece">Per piece</option></select></Field><Field label="Rate ₹"><input name="wage_rate" type="number" step="0.01" className="input" /></Field></div>
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2"><Field label="Wage type"><select name="wage_type" className="input"><option value="per_gram">Per gram</option><option value="per_piece">Per piece</option></select></Field><Field label="Rate ₹"><input name="wage_rate" type="number" step="0.01" className="input" /></Field></div>
           <details className="rounded-xl bg-slate-50 p-3 text-sm"><summary className="cursor-pointer font-semibold text-slate-600">Allow web login (optional)</summary><div className="mt-3 space-y-3"><Field label="Email"><input name="email" type="email" className="input" /></Field><Field label="Password (min 8)"><input name="password" type="password" className="input" /></Field></div></details>
         </div></ActionForm></Card> : null}
       </div>
